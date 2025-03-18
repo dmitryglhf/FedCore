@@ -599,3 +599,34 @@ class FocalLoss1(nn.Module):
         # print('loc_loss: %.3f | cls_loss: %.3f' % (loc_loss.data[0]/num_pos, cls_loss.data[0]/num_peg), end=' | ')
         loss = loc_loss / num_pos + cls_loss / num_peg
         return loss
+
+
+class LaiLoss(nn.Module):
+    """
+    Lai regularization application: https://arxiv.org/pdf/2405.07884
+    """
+    def __init__(self, alpha=1, base_loss=nn.MSELoss):
+        super().__init__()
+        self.alpha = alpha
+        self.base_loss = base_loss
+
+# NOW ONLY MSE FOR TEST
+    def forward(self, y_pred, y_true):
+        loss_value = self.base_loss(y_pred, y_true)
+
+        # Compute gradient scalar
+        grads = torch.autograd.grad(loss_value, y_pred, create_graph=True)[0]
+        k_i = torch.mean(torch.abs(grads))
+
+        # Lai regularization
+        if self.alpha >= 1:
+            a = k_i**2 / (1 + k_i**2)
+            b = self.alpha / (1 + k_i**2)
+            lai = max(a, b)
+        elif self.alpha < 1:
+            a = k_i**2 / (self.alpha * (1 + k_i**2))
+            b = 1 / (1 + k_i**2)
+            lai = max(a, b)
+        else: lai = 1
+
+        return loss_value * lai
