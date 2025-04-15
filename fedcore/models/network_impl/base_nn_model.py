@@ -193,6 +193,8 @@ class BaseNeuralModel(torch.nn.Module):
         if hasattr(model_output, 'loss'):
             quality_loss = model_output.loss
         else:
+            if criterion.__class__.__name__ == 'CrossEntropyLoss':
+                target = target.long()
             quality_loss = criterion(model_output, target)
         if isinstance(model_output, torch.Tensor):
             additional_losses = {name: coef * criterion(model_output, target)

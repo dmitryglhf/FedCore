@@ -101,7 +101,12 @@ class IDecomposed(abc.ABC):
     
     def _eliminate_extra_params(self, names):
         for name in names:
-            self.register_parameter(name, None)
+            try:
+                if name in self._parameters:
+                    self.register_parameter(name, None)
+            except KeyError:
+                # Если параметр не может быть удален, просто пропускаем его
+                pass
     
     def _get_composed_weight(self): #TODO add assertion if module is decomposed. Forward mode support
         if self.compose_mode == 'two_layers':
