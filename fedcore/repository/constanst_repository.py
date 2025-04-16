@@ -51,7 +51,12 @@ from fedcore.models.network_modules.losses import (
     SMAPELoss,
     TweedieLoss,
 )
-
+from fedcore.losses.regularization_losses import (
+    LaiMSE,
+    LaiMAE,
+    NormLoss,
+    AdaptiveRegularizationLoss,
+)
 from fedcore.repository.setups import QAT_1, PTQ_1
 from fedcore.models.network_impl.hooks import Saver, FitReport, SchedulerRenewal, OptimizerGen
 from fedcore.algorithm.low_rank.rank_pruning import DynamicRankPruner
@@ -377,6 +382,10 @@ class TorchLossesConstant(Enum):
     log_cosh = LogCoshLoss
     huber = HuberLoss
     exp_weighted = ExpWeightedLoss
+    lai_mse = LaiMSE
+    lai_mae = LaiMAE
+    norm_loss = NormLoss
+    ada_reg_loss = AdaptiveRegularizationLoss
 
 
 class DistilationMetricsEnum(QualityMetricsEnum):
