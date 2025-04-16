@@ -16,7 +16,8 @@ from fedcore.repository.constanst_repository import (
     FedotTaskEnum,
     PEFTStrategies,
     TaskTypesEnum,
-    TorchLossesConstant
+    TorchLossesConstant,
+    RegularizationLosses
 )
 
 __all__ = [
@@ -233,7 +234,7 @@ class LearningConfigTemplate(ConfigTemplate):
     """Copies previeous version od learning config"""
     learning_strategy: Literal['from_scratch', 'checkpoint'] = 'from_scratch'
     peft_strategy: PEFTStrategies = 'training'
-    criterion: Union[Callable, TorchLossesConstant] = LookUp(None)
+    criterion: Union[Callable, TorchLossesConstant, RegularizationLosses] = LookUp(None)
     peft_strategy_params: NeuralModelConfigTemplate = None
     learning_strategy_params: NeuralModelConfigTemplate = None
 

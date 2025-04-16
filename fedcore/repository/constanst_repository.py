@@ -51,6 +51,12 @@ from fedcore.models.network_modules.losses import (
     SMAPELoss,
     TweedieLoss,
 )
+from fedcore.losses.regularization_losses import (
+    LaiMSE,
+    LaiMAE,
+    NormLoss,
+    AdaptiveRegularizationLoss,
+)
 
 from fedcore.repository.setups import QAT_1, PTQ_1
 from fedcore.models.network_impl.hooks import Saver, FitReport, SchedulerRenewal, OptimizerGen
@@ -362,6 +368,7 @@ class PrunerImportances(Enum):
     group_taylor = tp.importance.GroupTaylorImportance
     group_hessian = tp.importance.GroupHessianImportance
 
+
 class TorchLossesConstant(Enum):
     cross_entropy = nn.CrossEntropyLoss
     binary_cross_entropy = nn.BCEWithLogitsLoss
@@ -377,6 +384,13 @@ class TorchLossesConstant(Enum):
     log_cosh = LogCoshLoss
     huber = HuberLoss
     exp_weighted = ExpWeightedLoss
+
+
+class RegularizationLosses(Enum):
+    lai_mse = LaiMSE,
+    lai_mae = LaiMAE,
+    norm_loss = NormLoss,
+    ada_reg_loss = AdaptiveRegularizationLoss
 
 
 class DistilationMetricsEnum(QualityMetricsEnum):
