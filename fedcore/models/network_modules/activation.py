@@ -3,7 +3,7 @@ from inspect import getmembers, isclass
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from fastai.layers import Mish
+# from fastai.layers import Mish
 
 from fastai.torch_core import Module
 
@@ -59,7 +59,7 @@ pytorch_acts = [
     nn.CELU,
     nn.GELU,
     nn.Sigmoid,
-    Mish,
+    # Mish,
     nn.Softplus,
     nn.Tanh,
     nn.Softmax,
