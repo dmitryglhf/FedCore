@@ -388,7 +388,6 @@ class TorchLossesConstant(Enum):
     norm_loss = NormLoss
     ada_reg_loss = AdaptiveRegularizationLoss
 
-
 class DistilationMetricsEnum(QualityMetricsEnum):
     intermediate_layers_attention = "intermediate_attention"
     intermediate_layers_feature = "intermediate_feature"
