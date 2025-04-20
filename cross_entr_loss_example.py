@@ -100,6 +100,6 @@ def get_input_data():
 if __name__ == "__main__":
     api_config = get_api_config()
     input_data = get_input_data()
-    
+
     fedcore_compressor = FedCore(api_config)
     fedcore_compressor.fit(input_data)

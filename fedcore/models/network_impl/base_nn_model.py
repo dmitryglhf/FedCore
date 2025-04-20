@@ -195,7 +195,11 @@ class BaseNeuralModel(torch.nn.Module):
         else:
             if criterion.__class__.__name__ == 'CrossEntropyLoss':
                 target = target.type(torch.LongTensor)
-            quality_loss = criterion(model_output, target)
+            expanded_target = target.unsqueeze(1).expand_as(model_output)
+            if criterion.__class__.__name__ == 'NormLoss':
+                quality_loss = criterion(self.model)
+            else:
+                quality_loss = criterion(model_output, expanded_target)
         if isinstance(model_output, torch.Tensor):
             additional_losses = {name: coef * criterion(model_output, target)
                                  for name, (criterion, coef) in self.custom_criterions.items()
